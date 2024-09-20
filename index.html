@@ -22,8 +22,8 @@
         }
        
 
-        #yesbutton, #nobutton, #reallybutton, #nobutton1 {
-            padding: 10px 20px;
+        #yesbutton {
+            padding: 10px 20px;            
             font-size: 16px;
             margin: 10px;
             cursor: pointer;
@@ -32,7 +32,8 @@
             color: white;
             border-radius: 5px;
         }
-         #backButton { 
+        
+        #backButton { 
         position: absolute;
         padding: 10px 20px;
             font-size: 16px;
@@ -46,17 +47,43 @@
             border-radius: 5px;
         }
         
-
+        #nobutton {  
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 10px;
+            cursor: pointer;
+            border: none;
+            background-color: black;
+            color: white;
+            border-radius: 5px;
+        }
+      
+      #nobutton1 {
+            position: absolute;
+            top: 320px;
+            left: 170px;
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 0;
+            cursor: pointer;
+            border: none;
+            background-color: black;
+            color: white;
+            border-radius: 5px;
+        }
+        
         #reallybutton {
             position: absolute;
             top: 320px;
             left: 40px;
-        }
-        
-        #nobutton1 {
-            position: absolute;
-            top: 320px;
-            left: 170px;
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 0;
+            cursor: pointer;
+            border: none;
+            background-color: black;
+            color: white;
+            border-radius: 5px;
         }
 
         button:hover {
@@ -67,22 +94,20 @@
             display: none;
             position: fixed;
             top: 260px;
-            left: 50%;
-            transform: translateX(-50%);
+            left: 180px;
+            transform: translate(-50%, -50%);
             width: 75%;
             padding: 20px 10px;
             background-color: white;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
         }
-
         .hidden {
             display: none;
-        }
+        }   
 
         .popup.active {
             display: block;
         }
-
     </style>
 </head>
 <body>
@@ -100,7 +125,7 @@
     <div id="popupPhoto2" class="popup">
         <img src="2nd.png.gif" alt="Photo 2">
         <br>
-        <button id="reallybutton" onclick="handleSecondChoice('really')">Really!</button>
+        <button id="reallybutton" onclick="handleSecondChoice('really')">Really! </button>
         <button id="nobutton1" onclick="handleSecondChoice('no')">No💔</button>
     </div>
 
@@ -111,12 +136,10 @@
     <div id="popupPhoto4" class="popup">
         <img src="4th.png.gif" alt="Photo 4">
     </div>
-
-    <!-- Back Button -->
+<!-- Back Button -->
     <button id="backButton" class="hidden" onclick="goBack()">Back</button>
-
     <!-- JavaScript to handle the interaction -->
-    <script>
+   <script>
         function handleInitialChoice(choice) {
             // Hide the initial section (Photo 1 + buttons)
             document.getElementById("photoSection").style.display = "none";
