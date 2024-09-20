@@ -22,7 +22,7 @@
         }
        
 
-        #yesbutton {
+        #yesbutton, #nobutton, #backButton, #reallybutton, #nobutton1 {
             padding: 10px 20px;
             font-size: 16px;
             margin: 10px;
@@ -32,57 +32,17 @@
             color: white;
             border-radius: 5px;
         }
-          #backButton { 
-        position: absolute;
-        padding: 10px 20px;
-            font-size: 16px;
-            top: 1px;
-            left: 270px;
-            margin: 10px;
-            cursor: pointer;
-            border: none;
-            background-color: black;
-            color: white;
-            border-radius: 5px;
-        }
-        
-        #nobutton {  
-            padding: 10px 20px;
-            font-size: 16px;
-            margin: 10px;
-            cursor: pointer;
-            border: none;
-            background-color: black;
-            color: white;
-            border-radius: 5px;
-        }
-      
-      #nobutton1 {
-            position: absolute;
-            top: 320px;
-            left: 170px;
-            padding: 10px 20px;
-            font-size: 16px;
-            margin: 0;
-            cursor: pointer;
-            border: none;
-            background-color: black;
-            color: white;
-            border-radius: 5px;
-        }
-        
+
         #reallybutton {
             position: absolute;
             top: 320px;
             left: 40px;
-            padding: 10px 20px;
-            font-size: 16px;
-            margin: 0;
-            cursor: pointer;
-            border: none;
-            background-color: black;
-            color: white;
-            border-radius: 5px;
+        }
+        
+        #nobutton1 {
+            position: absolute;
+            top: 320px;
+            left: 170px;
         }
 
         button:hover {
@@ -93,20 +53,22 @@
             display: none;
             position: fixed;
             top: 260px;
-            left: 180px;
-            transform: translate(-50%, -50%);
+            left: 50%;
+            transform: translateX(-50%);
             width: 75%;
             padding: 20px 10px;
             background-color: white;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
         }
+
         .hidden {
             display: none;
-        }   
+        }
 
         .popup.active {
             display: block;
         }
+
     </style>
 </head>
 <body>
@@ -124,7 +86,7 @@
     <div id="popupPhoto2" class="popup">
         <img src="2nd.png.gif" alt="Photo 2">
         <br>
-        <button id="reallybutton" onclick="handleSecondChoice('really')">Really! </button>
+        <button id="reallybutton" onclick="handleSecondChoice('really')">Really!</button>
         <button id="nobutton1" onclick="handleSecondChoice('no')">No💔</button>
     </div>
 
@@ -136,42 +98,35 @@
         <img src="4th.png.gif" alt="Photo 4">
     </div>
 
+    <!-- Back Button -->
     <button id="backButton" class="hidden" onclick="goBack()">Back</button>
 
     <!-- JavaScript to handle the interaction -->
     <script>
- 
         function handleInitialChoice(choice) {
             // Hide the initial section (Photo 1 + buttons)
-                       document.getElementById("photoSection").style.display="none";
-                                                                                                   
-            if (choice === 'yes') {               
-                           document.getElementById("popupPhoto2").classList.add("active");
-                            
+            document.getElementById("photoSection").style.display = "none";
+            document.getElementById('backButton').classList.remove('hidden'); // Show the Back button
+            
+            if (choice === 'yes') {
+                document.getElementById("popupPhoto2").classList.add("active");
             } else if (choice === 'no') {
-                // If 'No' is clicked, show Photo 3
-                     document.getElementById("popupPhoto3").classList.add("active");
-            }
-            
-document.getElementById('text').classList.add('hidden');
-            
-            
-        }
-
-        function handleSecondChoice(choice) {
-            // Hide Photo 2 and its buttons
-            document.getElementById("popupPhoto2").classList.remove("active");
-            
-            if (choice === 'really') {
-                // If 'Really' is clicked, show Photo 4
-                document.getElementById("popupPhoto4").classList.add("active");
-            } else if (choice === 'no') {
-                // If 'No' is clicked, show Photo 3
                 document.getElementById("popupPhoto3").classList.add("active");
             }
             
-document.getElementById('text').classList.add('hidden'); 
+            document.getElementById('text').classList.add('hidden'); // Hide the main text
         }
+
+        function handleSecondChoice(choice) {
+            document.getElementById("popupPhoto2").classList.remove("active");
+            
+            if (choice === 'really') {
+                document.getElementById("popupPhoto4").classList.add("active");
+            } else if (choice === 'no') {
+                document.getElementById("popupPhoto3").classList.add("active");
+            }
+        }
+
         function goBack() {
             // Hide all popups
             document.getElementById("popupPhoto2").classList.remove("active");
@@ -183,7 +138,6 @@ document.getElementById('text').classList.add('hidden');
             document.getElementById('backButton').classList.add('hidden'); // Hide the Back button
             document.getElementById('text').classList.remove('hidden'); // Show the main text again
         }
-        
     </script>
 
 </body>
