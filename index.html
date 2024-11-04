@@ -20,10 +20,9 @@
             max-width: 100%;
             height: auto;
         }
-       
 
-        #yesbutton {
-            padding: 10px 20px;            
+        #yesbutton, #nobutton, #nobutton1, #reallybutton {
+            padding: 10px 20px;
             font-size: 16px;
             margin: 10px;
             cursor: pointer;
@@ -33,7 +32,7 @@
             border-radius: 5px;
         }
         
-        #backButton { 
+        #backButton {
         position: absolute;
         padding: 10px 20px;
             font-size: 16px;
@@ -46,44 +45,19 @@
             color: white;
             border-radius: 5px;
         }
-        
-        #nobutton {  
-            padding: 10px 20px;
-            font-size: 16px;
-            margin: 10px;
-            cursor: pointer;
-            border: none;
-            background-color: black;
-            color: white;
-            border-radius: 5px;
-        }
-      
-      #nobutton1 {
+
+        #nobutton1 {
             position: absolute;
             top: 320px;
             left: 170px;
-            padding: 10px 20px;
-            font-size: 16px;
             margin: 0;
-            cursor: pointer;
-            border: none;
-            background-color: black;
-            color: white;
-            border-radius: 5px;
         }
-        
+
         #reallybutton {
             position: absolute;
             top: 320px;
             left: 40px;
-            padding: 10px 20px;
-            font-size: 16px;
             margin: 0;
-            cursor: pointer;
-            border: none;
-            background-color: black;
-            color: white;
-            border-radius: 5px;
         }
 
         button:hover {
@@ -101,12 +75,17 @@
             background-color: white;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
         }
+
         .hidden {
             display: none;
-        }   
+        }
 
         .popup.active {
             display: block;
+        }
+
+        #backButton {
+            display: none; /* Hide back button initially */
         }
     </style>
 </head>
@@ -115,7 +94,7 @@
     <h1 id="text">Do you love me?</h1>    
     
     <div id="photoSection">
-        <img id="mainPhoto" src="1st.png.gif" alt="Photo 1">
+        <img id="mainPhoto" src="file:///storage/emulated/0/Download/1st.png.gif" alt="Photo 1">
         <br>
         <button id="yesbutton" onclick="handleInitialChoice('yes')">Yes❤️</button>
         <button id="nobutton" onclick="handleInitialChoice('no')">No💔</button>
@@ -123,59 +102,83 @@
 
     <!-- Pop-up containers for Photo 2, Photo 3, and Photo 4 -->
     <div id="popupPhoto2" class="popup">
-        <img src="2nd.png.gif" alt="Photo 2">
+        <img src="file:///storage/emulated/0/Download/2nd.png.gif" alt="Photo 2">
         <br>
-        <button id="reallybutton" onclick="handleSecondChoice('really')">Really! </button>
+        <button id="reallybutton" onclick="handleSecondChoice('really')">Really!</button>
         <button id="nobutton1" onclick="handleSecondChoice('no')">No💔</button>
     </div>
 
     <div id="popupPhoto3" class="popup">
-        <img src="3rd.png.gif" alt="Photo 3">
+        <img src="file:///storage/emulated/0/Download/3rd.png.gif" alt="Photo 3">
     </div>
 
     <div id="popupPhoto4" class="popup">
-        <img src="4th.png.gif" alt="Photo 4">
+        <img src="file:///storage/emulated/0/Download/4th.png.gif" alt="Photo 4">
     </div>
-<!-- Back Button -->
-    <button id="backButton" class="hidden" onclick="goBack()">Reload</button>
+
+    <!-- Back Button -->
+    <button id="backButton" onclick="goBack()">Back</button>
+
     <!-- JavaScript to handle the interaction -->
-   <script>
+    <script>
+        let currentPage = 'photoSection';
+        let previousPage = null; // Track the previous page
+
         function handleInitialChoice(choice) {
             // Hide the initial section (Photo 1 + buttons)
             document.getElementById("photoSection").style.display = "none";
-            document.getElementById('backButton').classList.remove('hidden'); // Show the Back button
-            
-            if (choice === 'yes') {
+            document.getElementById("backButton").style.display = "inline-block"; // Show back button
+
+            previousPage = currentPage; // Update previous page
+            if (choice === 'yes') {               
                 document.getElementById("popupPhoto2").classList.add("active");
+                currentPage = 'popupPhoto2';
             } else if (choice === 'no') {
+                // If 'No' is clicked, show Photo 3
                 document.getElementById("popupPhoto3").classList.add("active");
+                currentPage = 'popupPhoto3';
             }
-            
-            document.getElementById('text').classList.add('hidden'); // Hide the main text
+
+            document.getElementById('text').classList.add('hidden');
         }
 
         function handleSecondChoice(choice) {
+            // Hide Photo 2 and its buttons
             document.getElementById("popupPhoto2").classList.remove("active");
-            
+
+            previousPage = currentPage; // Update previous page
             if (choice === 'really') {
+                // If 'Really' is clicked, show Photo 4
                 document.getElementById("popupPhoto4").classList.add("active");
+                currentPage = 'popupPhoto4';
             } else if (choice === 'no') {
+                // If 'No' is clicked, show Photo 3
                 document.getElementById("popupPhoto3").classList.add("active");
+                currentPage = 'popupPhoto3';
             }
+
+            document.getElementById('text').classList.add('hidden');
         }
 
         function goBack() {
-            // Hide all popups
-            document.getElementById("popupPhoto2").classList.remove("active");
-            document.getElementById("popupPhoto3").classList.remove("active");
-            document.getElementById("popupPhoto4").classList.remove("active");
-            
-            // Show the initial photo section again
-            document.getElementById("photoSection").style.display = "block";
-            document.getElementById('backButton').classList.add('hidden'); // Hide the Back button
-            document.getElementById('text').classList.remove('hidden'); // Show the main text again
+            // Hide the current page
+            document.getElementById(currentPage).classList.remove("active");
+            document.getElementById("photoSection").style.display = "none";
+
+            // Show the previous page
+            if (previousPage === 'photoSection') {
+                document.getElementById("photoSection").style.display = "block";
+                document.getElementById("backButton").style.display = "none"; // Hide back button on homepage
+                document.getElementById('text').classList.remove('hidden');
+            } else {
+                document.getElementById(previousPage).classList.add("active");
+            }
+
+            // Update the page variables
+            currentPage = previousPage;
+            previousPage = currentPage === 'photoSection' ? null : 'photoSection';
         }
     </script>
 
 </body>
-</html>
+        </html>
